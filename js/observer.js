@@ -4,30 +4,28 @@ function Observer(data) {
 }
 
 Observer.prototype = {
-    walk: function(data) {
-        var me = this;
-        Object.keys(data).forEach(function(key) {
-            me.convert(key, data[key]);
+    walk(data) {
+        let _this = this;
+        Object.keys(data).forEach(key => {
+            _this.convert(key, data[key]);
         });
     },
-    convert: function(key, val) {
+    convert(key, val) {
         this.defineReactive(this.data, key, val);
     },
-
-    defineReactive: function(data, key, val) {
-        var dep = new Dep();
-        var childObj = observe(val);
-
+    defineReactive(data, key, val) {
+        let dep = new Dep();
+        let childObj = observe(val);
         Object.defineProperty(data, key, {
             enumerable: true, // 可枚举
             configurable: false, // 不能再define
-            get: function() {
+            get: function () {
                 if (Dep.target) {
                     dep.depend();
                 }
                 return val;
             },
-            set: function(newVal) {
+            set: function (newVal) {
                 if (newVal === val) {
                     return;
                 }
@@ -45,12 +43,10 @@ function observe(value, vm) {
     if (!value || typeof value !== 'object') {
         return;
     }
-
     return new Observer(value);
-};
+}
 
-
-var uid = 0;
+let uid = 0;
 
 function Dep() {
     this.id = uid++;
@@ -58,23 +54,20 @@ function Dep() {
 }
 
 Dep.prototype = {
-    addSub: function(sub) {
+    addSub(sub) {
         this.subs.push(sub);
     },
-
-    depend: function() {
+    depend() {
         Dep.target.addDep(this);
     },
-
-    removeSub: function(sub) {
-        var index = this.subs.indexOf(sub);
+    removeSub(sub) {
+        let index = this.subs.indexOf(sub);
         if (index != -1) {
             this.subs.splice(index, 1);
         }
     },
-
-    notify: function() {
-        this.subs.forEach(function(sub) {
+    notify() {
+        this.subs.forEach(sub => {
             sub.update();
         });
     }
