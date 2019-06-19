@@ -1,13 +1,11 @@
 function MVVM(options) {
-    console.log(options);
     this.$options = options || {};
-    var data = this._data = this.$options.data;
-    var me = this;
+    let data = this._data = this.$options.data;
+    let _this = this;
 
-    // 数据代理
-    // 实现 vm.xxx -> vm._data.xxx
-    Object.keys(data).forEach(function(key) {
-        me._proxyData(key);
+    // 数据代理，实现 vm.xxx -> vm._data.xxx
+    Object.keys(data).forEach(key => {
+        _this._proxyData(key);
     });
 
     this._initComputed();
@@ -18,35 +16,36 @@ function MVVM(options) {
 }
 
 MVVM.prototype = {
-    $watch: function(key, cb, options) {
+    $watch(key, cb, options) {
         new Watcher(this, key, cb);
     },
 
-    _proxyData: function(key, setter, getter) {
-        var me = this;
-        setter = setter || 
-        Object.defineProperty(me, key, {
-            configurable: false,
-            enumerable: true,
-            get: function proxyGetter() {
-                return me._data[key];
-            },
-            set: function proxySetter(newVal) {
-                me._data[key] = newVal;
-            }
-        });
+    _proxyData(key, setter, getter) {
+        let _this = this;
+        setter = setter ||
+            Object.defineProperty(_this, key, {
+                configurable: false,
+                enumerable: true,
+                get: function proxyGetter() {
+                    return _this._data[key];
+                },
+                set: function proxySetter(newVal) {
+                    _this._data[key] = newVal;
+                }
+            });
     },
 
-    _initComputed: function() {
-        var me = this;
-        var computed = this.$options.computed;
+    _initComputed() {
+        let _this = this;
+        let computed = this.$options.computed;
         if (typeof computed === 'object') {
-            Object.keys(computed).forEach(function(key) {
-                Object.defineProperty(me, key, {
-                    get: typeof computed[key] === 'function' 
-                            ? computed[key] 
-                            : computed[key].get,
-                    set: function() {}
+            Object.keys(computed).forEach(key => {
+                Object.defineProperty(_this, key, {
+                    get: typeof computed[key] === 'function'
+                        ? computed[key]
+                        : computed[key].get,
+                    set: function () {
+                    }
                 });
             });
         }
