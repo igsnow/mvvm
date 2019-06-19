@@ -60,16 +60,16 @@ Compile.prototype = {
         compileUtil.text(node, this.$vm, exp);
     },
     isDirective(attr) {
-        return attr.indexOf('v-') == 0;
+        return attr.indexOf('v-') === 0;
     },
     isEventDirective(dir) {
         return dir.indexOf('on') === 0;
     },
     isElementNode(node) {
-        return node.nodeType == 1;
+        return node.nodeType === 1;
     },
     isTextNode(node) {
-        return node.nodeType == 3;
+        return node.nodeType === 3;
     }
 };
 

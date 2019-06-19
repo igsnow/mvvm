@@ -12,14 +12,13 @@ function MVVM(options) {
 
     observe(data, this);
 
-    this.$compile = new Compile(options.el || document.body, this)
+    new Compile(options.el || document.body, this)
 }
 
 MVVM.prototype = {
     $watch(key, cb, options) {
         new Watcher(this, key, cb);
     },
-
     _proxyData(key, setter, getter) {
         let _this = this;
         setter = setter ||
@@ -34,7 +33,6 @@ MVVM.prototype = {
                 }
             });
     },
-
     _initComputed() {
         let _this = this;
         let computed = this.$options.computed;

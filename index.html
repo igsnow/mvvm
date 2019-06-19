@@ -12,21 +12,20 @@
     <p v-html="htmlStr"></p>
     <button v-on:click="handleBtnClick">Change</button>
 </div>
-
+</body>
+<script src="./js/mvvm.js"></script>
 <script src="./js/observer.js"></script>
 <script src="./js/watcher.js"></script>
 <script src="./js/compile.js"></script>
-<script src="./js/mvvm.js"></script>
 <script>
     let vm = new MVVM({
         el: '#app',
         data: {
             firstName: 'Hello ',
-            className: 'btn',
-            htmlStr: '<span style="color: blue;">blue</span>',
             child: {
                 lastName: 'World'
-            }
+            },
+            htmlStr: '<span style="color: blue;">blue</span>'
         },
         computed: {
             getFullName() {
@@ -40,10 +39,8 @@
             }
         }
     });
-    vm.$watch('child.lastName', function () {
-        console.log(arguments);
+    vm.$watch('child.lastName', function (newVal, oldVal) {
+        console.log(newVal, oldVal);
     });
 </script>
-
-</body>
 </html>

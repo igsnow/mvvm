@@ -62,7 +62,7 @@ Dep.prototype = {
     },
     removeSub(sub) {
         let index = this.subs.indexOf(sub);
-        if (index != -1) {
+        if (index !== -1) {
             this.subs.splice(index, 1);
         }
     },
